@@ -19,6 +19,7 @@ interface PersistedDocumentResult {
   originalText: string;
   processedText: string;
   provider?: "gemini" | "openrouter";
+  model?: string;
   fileName?: string;
 }
 
@@ -127,6 +128,7 @@ export default function DocumentAssistant() {
             originalText: res.originalText,
             processedText: res.processedText,
             provider: res.provider,
+            model: res.model,
             fileName: file.name,
           };
           setActiveResult(newResult);
@@ -167,6 +169,7 @@ export default function DocumentAssistant() {
       originalText: item.originalText,
       processedText: item.processedText,
       provider: item.provider,
+      model: item.model,
       fileName: item.fileName,
     };
     setActiveResult(loadedResult);
@@ -442,7 +445,9 @@ export default function DocumentAssistant() {
                           ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/30"
                           : "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-400 border border-violet-100 dark:border-violet-900/30"
                       }`}>
-                        {activeResult.provider === "gemini" ? "🟢 Powered by Gemini" : "🟣 Powered by OpenRouter"}
+                        {activeResult.provider === "gemini" 
+                          ? `🟢 Gemini (${activeResult.model || "gemini-2.5-flash"})` 
+                          : `🟣 OpenRouter (${activeResult.model || "gemma-4-26b"})`}
                       </span>
                     )}
                   </div>

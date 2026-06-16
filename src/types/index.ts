@@ -1,4 +1,5 @@
 export interface DocumentResponse {
+  model: string | undefined;
   success: boolean;
   originalText: string;
   processedText: string;
@@ -6,6 +7,7 @@ export interface DocumentResponse {
 }
 
 export interface SummaryResponse {
+  model: string | undefined;
   success: boolean;
   summary: string;
   keyPoints: string[];
@@ -16,6 +18,7 @@ export interface ResearchResponse {
   success: boolean;
   report: string;
   provider?: "gemini" | "openrouter";
+  model?: string;
 }
 
 export interface APIErrorResponse {

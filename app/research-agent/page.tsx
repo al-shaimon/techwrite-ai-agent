@@ -18,6 +18,7 @@ import { toast } from "sonner";
 interface PersistedResearchResult {
   report: string;
   provider?: "gemini" | "openrouter";
+  model?: string;
   topic?: string;
 }
 
@@ -75,6 +76,7 @@ export default function ResearchAgent() {
         const newResult: PersistedResearchResult = {
           report: res.report,
           provider: res.provider,
+          model: res.model,
           topic,
         };
         setActiveResult(newResult);
@@ -111,6 +113,7 @@ export default function ResearchAgent() {
     const loadedResult: PersistedResearchResult = {
       report: item.report,
       provider: item.provider,
+      model: item.model,
       topic: item.topic,
     };
     setActiveResult(loadedResult);
@@ -287,12 +290,14 @@ export default function ResearchAgent() {
 
               {activeResult.provider && (
                 <div className="flex justify-end">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                     activeResult.provider === "gemini"
                       ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/30"
                       : "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-400 border border-violet-100 dark:border-violet-900/30"
                   }`}>
-                    {activeResult.provider === "gemini" ? "🟢 Powered by Gemini" : "🟣 Powered by OpenRouter"}
+                    {activeResult.provider === "gemini"
+                      ? `🟢 Gemini (${activeResult.model || "gemini-2.5-flash"})`
+                      : `🟣 OpenRouter (${activeResult.model || "openrouter"})`}
                   </span>
                 </div>
               )}

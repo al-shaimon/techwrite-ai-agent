@@ -19,6 +19,7 @@ interface PersistedSummaryResult {
   summary: string;
   keyPoints: string[];
   provider?: "gemini" | "openrouter";
+  model?: string;
   inputText?: string;
 }
 
@@ -79,6 +80,7 @@ export default function SummarizationAgent() {
           summary: res.summary,
           keyPoints: res.keyPoints,
           provider: res.provider,
+          model: res.model,
           inputText: text,
         };
         setActiveResult(newResult);
@@ -116,6 +118,7 @@ export default function SummarizationAgent() {
       summary: item.summary,
       keyPoints: item.keyPoints,
       provider: item.provider,
+      model: item.model,
       inputText: item.inputText,
     };
     setActiveResult(loadedResult);
@@ -324,7 +327,9 @@ export default function SummarizationAgent() {
                           ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/30"
                           : "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-400 border border-violet-100 dark:border-violet-900/30"
                       }`}>
-                        {activeResult.provider === "gemini" ? "🟢 Powered by Gemini" : "🟣 Powered by OpenRouter"}
+                        {activeResult.provider === "gemini" 
+                          ? `🟢 Gemini (${activeResult.model || "gemini-2.5-flash"})` 
+                          : `🟣 OpenRouter (${activeResult.model || "gemma-4-26b"})`}
                       </span>
                     )}
                   </div>
